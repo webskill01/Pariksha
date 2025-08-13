@@ -58,6 +58,15 @@ function UploadPaper() {
     }
   })
 
+  const isUserAdmin = () => {
+  const user = authService.getCurrentUser()
+  // Adjust these conditions based on how you identify admins in your system
+  return user?.role === 'admin' || 
+         user?.isAdmin === true || 
+         user?.userType === 'admin' ||
+         ['nitinemailss@gamil.com'].includes(user?.email) // Add your admin emails
+}
+
   // Handle file selection from FileUploadZone
   const handleFileSelect = (file) => {
     setSelectedFile(file)
@@ -139,7 +148,11 @@ function UploadPaper() {
       
       // Redirect to dashboard after short delay
       setTimeout(() => {
-        navigate('/dashboard')
+        if (isUserAdmin()) {
+    navigate('/admin/dashboard')
+  } else {
+    navigate('/dashboard')
+  }
       }, 2000)
 
     } catch (error) {

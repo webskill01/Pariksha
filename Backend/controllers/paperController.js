@@ -96,8 +96,12 @@ export const downloadPaper = asyncHandler(async (req, res) => {
     });
   }
 
-  if (paper.status !== "approved") {
-    return res.status(404).json({
+  
+  const user = req.user; 
+  const isAdmin = user && user.role === 'admin'; // Adjust based on your admin check
+
+  if (paper.status !== "approved" && !isAdmin) {
+    return res.status(403).json({
       success: false,
       message: "Paper not available for download"
     });

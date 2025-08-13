@@ -18,17 +18,79 @@ import {
   Instagram,
   Facebook
 } from "@mui/icons-material";
+import { authService } from "../../services/authService";
+import { useState } from "react";
+import { useEffect } from "react";
 
 function Footer() {
   const currentYear = new Date().getFullYear();
+ // Reactive authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
+  const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
 
+  // Function to update auth state
+  const updateAuthState = () => {
+    const newIsAuthenticated = authService.isAuthenticated();
+    const newCurrentUser = authService.getCurrentUser();
+    
+    setIsAuthenticated(newIsAuthenticated);
+    setCurrentUser(newCurrentUser);
+  };
+
+  // Listen for authentication changes
+  useEffect(() => {
+    // Create a custom event listener for auth changes
+    const handleAuthChange = () => {
+      updateAuthState();
+    };
+
+    // Listen for storage changes (works for different tabs)
+    const handleStorageChange = (e) => {
+      if (e.key === 'token' || e.key === 'user') {
+        updateAuthState();
+      }
+    };
+
+    // Add event listeners
+    window.addEventListener('authStateChanged', handleAuthChange);
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for focus events to catch same-tab changes
+    window.addEventListener('focus', updateAuthState);
+    
+    //  Set up interval to periodically check auth state (fallback)
+    const authCheckInterval = setInterval(updateAuthState, 1000);
+
+    return () => {
+      window.removeEventListener('authStateChanged', handleAuthChange);
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', updateAuthState);
+      clearInterval(authCheckInterval);
+    };
+  }, []);
+
+  const isUserAdmin = () => {
+    return currentUser?.role === 'admin' ||
+           currentUser?.isAdmin === true ||
+           currentUser?.userType === 'admin' ||
+           ['nitinemailss@gmail.com'].includes(currentUser?.email);
+  };
   // Quick Links - Main navigation
   const quickLinks = [
-    { label: 'Home', path: '/', icon: <Home fontSize="small" /> },
-    { label: 'Browse Papers', path: '/papers', icon: <LibraryBooks fontSize="small" /> },
+  { label: 'Home', path: '/', icon: <Home fontSize="small" /> },
+  { label: 'Browse Papers', path: '/papers', icon: <LibraryBooks fontSize="small" /> },
+  
+  //  Only show if user is logged in
+  ...(isAuthenticated ? [
     { label: 'Upload Paper', path: '/upload', icon: <CloudUpload fontSize="small" /> },
-    { label: 'Dashboard', path: '/dashboard', icon: <Dashboard fontSize="small" /> }
-  ];
+    { 
+      label: isUserAdmin() ? 'Admin Panel' : 'Dashboard', 
+      path: isUserAdmin() ? '/admin/dashboard' : '/dashboard', 
+      icon: <Dashboard fontSize="small" /> 
+    }
+  ] : [])
+];
+
 
   // Support Links - Help and legal pages
   const supportLinks = [
@@ -46,6 +108,7 @@ function Footer() {
     { label: 'Instagram', url: 'https://www.instagram.com/nitin.kumar.01?igsh=MW9vMHNyNDVieG9sOA==', icon: <Instagram /> },
     { label: 'Facebook', url: 'https://www.facebook.com/profile.php?id=100014537138957', icon: <Facebook /> }
   ];
+  
 
   return (
     <footer className="bg-slate-900 border-t border-slate-700/50 mt-auto">
