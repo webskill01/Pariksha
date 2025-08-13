@@ -1,0 +1,6 @@
+# Node.js/Express specific  
+.env*
+node_modules/
+uploads/
+logs/
+*.log
