@@ -12,11 +12,16 @@ const app  = express();
 
 // Configure CORS with specific options
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
+  origin: [
+    'http://localhost:3000',
+    'http://localhost:5173', 
+    'https://pariksha-gamma.vercel.app' 
+  ],
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true
 }));
+
 
 app.use(express.json());
 app.use('/uploads', express.static('uploads'));
