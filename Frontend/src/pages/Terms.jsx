@@ -42,7 +42,7 @@ function Terms() {
         </div>
 
         {/* Quick Summary Card */}
-        <div className="card glass-strong p-6 mb-8 border-l-4 border-cyan-500">
+        <div className="card glass-strong p-6 mb-8 border-l-4 ">
           <h2 className="text-xl font-bold text-white mb-3 flex items-center">
             <Warning className="text-cyan-400 mr-2" />
             Quick Summary
@@ -140,7 +140,7 @@ function Terms() {
                 </ul>
               </div>
               <div className="bg-yellow-500/10 border border-yellow-500/20 rounded-lg p-4 mt-4">
-                <p className="text-yellow-300 text-sm">
+                <p className="text-yellow-400 text-sm">
                   <strong>Content Review:</strong> All uploaded content is subject to admin review before publication. 
                   We reserve the right to reject or remove any content that violates these terms.
                 </p>
@@ -348,8 +348,8 @@ function Terms() {
                   Questions about these terms? Contact us at:
                 </p>
                 <div className="mt-2 text-sm">
-                  <p>Email: <span className="text-cyan-400">legal@pariksha.com</span></p>
-                  <p>Contact Page: <Link to="/contact" className="text-cyan-400 hover:text-cyan-300 transition-colors">Get in Touch</Link></p>
+                  <p>Email: <span className="text-cyan-400">nitinemailss@gmail.com</span></p>
+                  <p>Contact: <span className="text-cyan-400">Through Socials Below</span></p>
                 </div>
               </div>
             </div>

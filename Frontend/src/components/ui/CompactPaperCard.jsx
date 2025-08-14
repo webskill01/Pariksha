@@ -27,11 +27,11 @@ export function CompactPaperCard({ paper, onDelete }) {
       
       {/* Header with Icon and Status */}
       <div className="p-3 pb-2">
-        <div className="flex items-start gap-2 mb-2">
+        <div className="flex items-center justify-center gap-2 mb-2">
           <div className="flex-shrink-0 p-1.5 rounded-lg bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30">
             <PictureAsPdf className="text-red-400 text-sm" />
           </div>
-          <div className="flex-1 min-w-0">
+          <div >
             <StatusBadge status={paper.status} />
           </div>
         </div>

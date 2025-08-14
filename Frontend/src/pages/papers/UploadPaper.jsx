@@ -1,6 +1,6 @@
 // Frontend/src/pages/papers/UploadPaper.jsx - Mobile-Optimized Version
 
-import { useState } from 'react'
+import { useState , useEffect } from 'react'
 import { useForm, Controller } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate } from 'react-router-dom'
@@ -26,13 +26,59 @@ import FileUploadZone from '../../components/forms/FileUploadZone'
 function UploadPaper() {
   // State management
   const [selectedFile, setSelectedFile] = useState(null)
-  const [uploadProgress, setUploadProgress] = useState(0)
   const [isUploading, setIsUploading] = useState(false)
   const [tags, setTags] = useState([])
   const [tagInput, setTagInput] = useState('')
   
   const navigate = useNavigate()
   const user = authService.getCurrentUser()
+
+  // Reactive authentication state
+  const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
+  const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
+
+  // Function to update auth state
+  const updateAuthState = () => {
+    const newIsAuthenticated = authService.isAuthenticated();
+    const newCurrentUser = authService.getCurrentUser();
+    
+    setIsAuthenticated(newIsAuthenticated);
+    setCurrentUser(newCurrentUser);
+  };
+
+  // Listen for authentication changes
+  useEffect(() => {
+    // Create a custom event listener for auth changes
+    const handleAuthChange = () => {
+      updateAuthState();
+    };
+
+    // Listen for storage changes (works for different tabs)
+    const handleStorageChange = (e) => {
+      if (e.key === 'token' || e.key === 'user') {
+        updateAuthState();
+      }
+    };
+
+    // Add event listeners
+    window.addEventListener('authStateChanged', handleAuthChange);
+    window.addEventListener('storage', handleStorageChange);
+    
+    // Also listen for focus events to catch same-tab changes
+    window.addEventListener('focus', updateAuthState);
+    
+    //  Set up interval to periodically check auth state (fallback)
+    const authCheckInterval = setInterval(updateAuthState, 1000);
+
+    return () => {
+      window.removeEventListener('authStateChanged', handleAuthChange);
+      window.removeEventListener('storage', handleStorageChange);
+      window.removeEventListener('focus', updateAuthState);
+      clearInterval(authCheckInterval);
+    };
+  }, []);
+
+  
 
   // React Hook Form setup with Yup validation
   const {
@@ -57,15 +103,12 @@ function UploadPaper() {
       file: null
     }
   })
-
-  const isUserAdmin = () => {
-  const user = authService.getCurrentUser()
-  // Adjust these conditions based on how you identify admins in your system
-  return user?.role === 'admin' || 
-         user?.isAdmin === true || 
-         user?.userType === 'admin' ||
-         ['nitinemailss@gamil.com'].includes(user?.email) // Add your admin emails
-}
+const isUserAdmin = () => {
+    return currentUser?.role === 'admin' ||
+           currentUser?.isAdmin === true ||
+           currentUser?.userType === 'admin' ||
+           ['nitinemailss@gmail.com'].includes(currentUser?.email);
+  };
 
   // Handle file selection from FileUploadZone
   const handleFileSelect = (file) => {
@@ -109,8 +152,6 @@ function UploadPaper() {
     }
 
     setIsUploading(true)
-    setUploadProgress(0)
-
     try {
       // Prepare FormData for multipart upload
       const formData = new FormData()
@@ -133,7 +174,6 @@ function UploadPaper() {
           const percentCompleted = Math.round(
             (progressEvent.loaded * 100) / progressEvent.total
           )
-          setUploadProgress(percentCompleted)
         }
       })
 
@@ -168,7 +208,6 @@ function UploadPaper() {
       }
     } finally {
       setIsUploading(false)
-      setUploadProgress(0)
     }
   }
 
@@ -253,7 +292,7 @@ function UploadPaper() {
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g., Pyhton Programming"
+                      placeholder="e.g., Python Programming"
                       className={`form-input ${errors.subject ? 'form-input-error' : ''}`}
                       {...register('subject')}
                       disabled={isUploading}
@@ -405,29 +444,6 @@ function UploadPaper() {
                   </p>
                 </div>
               </div>
-
-              {/* Upload Progress */}
-              {isUploading && (
-                <div className="space-y-4">
-                  <div className="bg-slate-800/50 rounded-lg p-4">
-                    <div className="flex items-center justify-between mb-2">
-                      <span className="text-sm font-medium text-slate-300">
-                        Uploading paper...
-                      </span>
-                      <span className="text-sm text-cyan-400">
-                        {uploadProgress}%
-                      </span>
-                    </div>
-                    <div className="w-full bg-slate-700 rounded-full h-2">
-                      <div 
-                        className="bg-gradient-to-r from-cyan-500 to-blue-600 h-2 rounded-full transition-all duration-300"
-                        style={{ width: `${uploadProgress}%` }}
-                      ></div>
-                    </div>
-                  </div>
-                </div>
-              )}
-
               {/* Submit Button */}
               <div className="flex justify-center pt-4">
                 <button

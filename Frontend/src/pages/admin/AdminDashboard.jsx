@@ -488,7 +488,7 @@ const handleDownload = async (e) => {
         <button
           onClick={handleDownload}
           disabled={isDownloading || !paper.fileUrl}
-          className="flex-1 min-w-0 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 text-cyan-300 hover:from-cyan-500/30 hover:to-blue-500/30 hover:border-cyan-400/60 hover:text-white rounded-md px-2 py-1.5 text-xs font-semibold transition-all duration-300 flex items-center justify-center space-x-1 disabled:opacity-50"
+          className="flex-1 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 border border-cyan-500/40 text-cyan-300 hover:from-cyan-500/30 hover:to-blue-500/30 hover:border-cyan-400/60 hover:text-white rounded-md px-2.5 py-1.5 text-xs font-semibold transition-all duration-300 flex items-center justify-center space-x-1 disabled:opacity-50"
         >
           {isDownloading ? (
             <div className="w-3 h-3 border border-white/30 border-t-white rounded-full animate-spin"></div>

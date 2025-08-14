@@ -1,6 +1,6 @@
 // Frontend/src/components/home/HeroSection.jsx
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { 
   Search, 
@@ -8,6 +8,7 @@ import {
   ArrowForward,
   School
 } from '@mui/icons-material'
+import { authService } from "../../services/authService";
 
 function HeroSection({ stats }) {
   const [searchQuery, setSearchQuery] = useState('')
@@ -19,6 +20,50 @@ function HeroSection({ stats }) {
       navigate(`/papers?search=${encodeURIComponent(searchQuery.trim())}`)
     }
   }
+  // Reactive authentication state
+    const [isAuthenticated, setIsAuthenticated] = useState(authService.isAuthenticated());
+    const [currentUser, setCurrentUser] = useState(authService.getCurrentUser());
+  
+    // Function to update auth state
+    const updateAuthState = () => {
+      const newIsAuthenticated = authService.isAuthenticated();
+      const newCurrentUser = authService.getCurrentUser();
+      
+      setIsAuthenticated(newIsAuthenticated);
+      setCurrentUser(newCurrentUser);
+    };
+  
+    // Listen for authentication changes
+    useEffect(() => {
+      // Create a custom event listener for auth changes
+      const handleAuthChange = () => {
+        updateAuthState();
+      };
+  
+      // Listen for storage changes (works for different tabs)
+      const handleStorageChange = (e) => {
+        if (e.key === 'token' || e.key === 'user') {
+          updateAuthState();
+        }
+      };
+  
+      // Add event listeners
+      window.addEventListener('authStateChanged', handleAuthChange);
+      window.addEventListener('storage', handleStorageChange);
+      
+      // Also listen for focus events to catch same-tab changes
+      window.addEventListener('focus', updateAuthState);
+      
+      //  Set up interval to periodically check auth state (fallback)
+      const authCheckInterval = setInterval(updateAuthState, 1000);
+  
+      return () => {
+        window.removeEventListener('authStateChanged', handleAuthChange);
+        window.removeEventListener('storage', handleStorageChange);
+        window.removeEventListener('focus', updateAuthState);
+        clearInterval(authCheckInterval);
+      };
+    }, []);
 
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
@@ -81,32 +126,32 @@ function HeroSection({ stats }) {
               <ArrowForward className=" transition-transform duration-300" fontSize="small" />
             </Link>
             
-            <Link 
+            {isAuthenticated?<Link 
               to="/upload" 
               className="btn-md btn-outline flex items-center justify-center space-x-2 hover:scale-105"
             >
               <School fontSize="small" />
               <span>Share Your Papers</span>
-            </Link>
+            </Link>:<></>}
           </div>
 
           {/* Statistics - Reduced font sizes */}
           <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             <div className="text-center">
               <div className="text-3xl sm:text-4xl font-bold gradient-text mb-1">
-                {stats?.totalPapers?.toLocaleString() || '150+'}
+                {stats?.totalPapers?.toLocaleString() || '-'}
               </div>
               <div className="text-slate-400 font-medium text-sm">Question Papers</div>
             </div>
             <div className="text-center">
               <div className="text-3xl sm:text-4xl font-bold gradient-text mb-1">
-                {stats?.totalUsers?.toLocaleString() || '500+'}
+                {stats?.totalUsers?.toLocaleString() || '-'}
               </div>
               <div className="text-slate-400 font-medium text-sm">Students Joined</div>
             </div>
             <div className="text-center">
               <div className="text-3xl  sm:text-4xl font-bold gradient-text mb-1">
-                {stats?.totalDownloads?.toLocaleString() || '2.5K+'}
+                {stats?.totalDownloads?.toLocaleString() || '-'}
               </div>
               <div className="text-slate-400 font-medium text-sm">Downloads</div>
             </div>

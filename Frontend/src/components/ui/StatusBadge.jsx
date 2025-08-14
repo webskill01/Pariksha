@@ -25,7 +25,7 @@ function StatusBadge({ status }) {
   const config = statusConfig[status] || statusConfig.pending
 
   return (
-    <div className={`badge ${config.color} flex items-center justify-center w-[95px]`}>
+    <div className={`badge ${config.color} flex gap-1 items-center justify-center w-[95px]`}>
       {config.icon}
       <span>{config.label}</span>
     </div>

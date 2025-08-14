@@ -207,7 +207,7 @@ function FAQ() {
                           </button>
 
                           {/* Answer */}
-                          <div className={`overflow-hidden transition-all duration-300 ${
+                          <div className={`overflow-hidden transition-all ease-in-out duration-500 ${
                             isExpanded ? 'max-h-screen opacity-100' : 'max-h-0 opacity-0'
                           }`}>
                             <div className="px-4 sm:px-6 pb-4 sm:pb-6">

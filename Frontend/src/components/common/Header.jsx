@@ -212,9 +212,9 @@ function Header() {
       {/* Mobile Sidebar Overlay - Enhanced with admin features */}
       {isMobileMenuOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 lg:hidden">
-          <div className="absolute inset-y-0 left-0 w-80 max-w-[85vw]">
+          <div className="sticky inset-y-0 left-0 w-80 max-w-[85vw]">
             {/* Mobile Sidebar */}
-            <div className="mobile-sidebar h-full bg-slate-900 border-r border-slate-700/50 shadow-2xl">
+            <div className="mobile-sidebar h-[100vh] bg-slate-900 border-r border-slate-700/50 shadow-2xl">
               
               {/* Sidebar Header - Your custom styling */}
               <div className="flex items-center justify-between p-6 border-b border-slate-700/50">

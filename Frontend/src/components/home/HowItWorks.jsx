@@ -75,7 +75,7 @@ function HowItWorks() {
                 <div className="bg-slate-800/30 backdrop-blur-sm rounded-xl p-3 sm:p-4 lg:p-6 border border-slate-700/50 hover:border-slate-600/50 transition-all duration-300 group-hover:bg-slate-800/50 min-h-52">
                   
                   {/* Step Number - Smaller for mobile */}
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 mx-auto mb-2 sm:mb-3 rounded-full bg-gradient-to-r ${colorClasses[step.color].replace('text-', 'from-').replace('-400', '-500/20')} border border-${step.color}-500/30 flex items-center justify-center relative`}>
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 lg:w-14 lg:h-14 mx-auto mb-2 sm:mb-3 rounded-full bg-gradient-to-r ${colorClasses[step.color].replace('text-', 'from-').replace('-400', '-500/20')} flex items-center justify-center relative`}>
                     <span className="text-sm sm:text-base lg:text-lg font-bold text-white">
                       {step.step}
                     </span>

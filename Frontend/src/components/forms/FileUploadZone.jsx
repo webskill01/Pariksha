@@ -142,11 +142,18 @@ function FileUploadZone({ onFileSelect, error, disabled = false, selectedFile })
             <div className="p-3 rounded-lg bg-red-500/20">
               <PictureAsPdf className="text-red-400 text-2xl" />
             </div>
-            <div className="flex-1 min-w-0">
-              <h3 className="font-semibold text-white truncate">
-                {selectedFile.name}
-              </h3>
-              <div className="flex items-center space-x-4 text-sm text-slate-400">
+            <div className="flex flex-col gap-1 min-w-0">
+              <div className='flex items-center justify-center'>
+                <h3 className="font-semibold text-white truncate">
+                  {selectedFile.name}
+                </h3>
+                <div className="flex-shrink-0 ">
+              <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
+                <CheckCircle className="text-green-400" fontSize="small" />
+              </div>
+            </div>
+              </div>
+              <div className="flex items-center gap-1.5 sm:gap-4 text-sm text-slate-400">
                 <span>{formatFileSize(selectedFile.size)}</span>
                 <span>•</span>
                 <span>PDF Document</span>
@@ -154,11 +161,7 @@ function FileUploadZone({ onFileSelect, error, disabled = false, selectedFile })
                 <span>{new Date(selectedFile.lastModified).toLocaleDateString()}</span>
               </div>
             </div>
-            <div className="flex-shrink-0">
-              <div className="w-8 h-8 rounded-full bg-green-500/20 flex items-center justify-center">
-                <CheckCircle className="text-green-400" fontSize="small" />
-              </div>
-            </div>
+            
           </div>
         </div>
       )}
