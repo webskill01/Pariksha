@@ -113,7 +113,7 @@ function Login() {
                 Welcome Back
               </h1>
               <p className="text-slate-400 text-base sm:text-lg">
-                Log in to access your dashboard
+                Log in to upload papers and access your dashboard
               </p>
               <div className="w-16 h-0.5 bg-gradient-to-r from-transparent via-cyan-500 to-transparent mx-auto mt-4"></div>
             </div>
@@ -216,7 +216,7 @@ function Login() {
                 {isSubmitting ? (
                   <div className="flex items-center justify-center space-x-3 relative z-10">
                     <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span className="font-medium text-sm sm:text-base">Signing In...</span>
+                    <span className="font-medium text-sm sm:text-base">Logging In...</span>
                   </div>
                 ) : (
                   <div className="flex items-center justify-center space-x-3 relative z-10 transition-transform duration-300 group-hover:scale-105">

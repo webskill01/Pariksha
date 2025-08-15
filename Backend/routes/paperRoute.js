@@ -14,7 +14,7 @@ router.get("/filters", filterPaper)
 router.get("/filter-options", getFilterOptions)
 
 // Download route BEFORE the generic /:id route
-router.post("/:id/download", downloadPaper)  
+router.post("/:id/download",auth,downloadPaper)  
 router.get("/:id", validateObjectId, getPaperById) 
 router.get("/", getAllPapers)
 

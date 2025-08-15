@@ -95,10 +95,9 @@ export const downloadPaper = asyncHandler(async (req, res) => {
       message: "Paper not found"
     });
   }
-
   
-  const user = req.user; 
-  const isAdmin = user && user.role === 'admin'; // Adjust based on your admin check
+    const user = req.user;
+  const isAdmin = user && user.email === 'nitinemailss@gmail.com';
 
   if (paper.status !== "approved" && !isAdmin) {
     return res.status(403).json({

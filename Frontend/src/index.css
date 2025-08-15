@@ -95,7 +95,7 @@
 
   /* Button Variants */
   .btn-primary {
-    @apply bg-gradient-to-r from-cyan-600 to-blue-700 text-white border border-transparent hover:from-cyan-700 hover:to-blue-800 hover:shadow-lg hover:shadow-cyan-500/25 focus:ring-cyan-500;
+    @apply bg-gradient-to-r from-cyan-600 to-blue-700 text-white hover:from-cyan-700 hover:to-blue-800 hover:shadow-lg hover:shadow-cyan-500/25 focus:ring-cyan-500;
   }
 
   .btn-secondary {

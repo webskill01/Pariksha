@@ -18,7 +18,7 @@ export const registerUser = asyncHandler(async (req, res) => {
   });
   if (existingUser) {
     return res.status(400).json({
-      message: "Student Already Registered With this Email or Roll number",
+      message: "Student Already Exist With this Email or Roll number",
     });
   }
   // Hash Password

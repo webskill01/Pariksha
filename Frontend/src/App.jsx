@@ -33,7 +33,7 @@ const App = () => {
         <Router>
           <div className=" min-h-screen gradient-bg flex flex-col">
             <Header/>
-            <main className="flex-1">
+            <main className="flex-1 ">
         <ScrollToTop/>
             <Routes>
               <Route path="/" element={<Home/>}/>

@@ -2,11 +2,13 @@
 
 import { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import DismissibleAlert from '../../utils/ALert';
 import { 
   Search, 
   LibraryBooks,
   ArrowForward,
-  School
+  School,
+  UploadFileOutlined
 } from '@mui/icons-material'
 import { authService } from "../../services/authService";
 
@@ -64,7 +66,6 @@ function HeroSection({ stats }) {
         clearInterval(authCheckInterval);
       };
     }, []);
-
   return (
     <div className="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Background decoration */}
@@ -74,6 +75,7 @@ function HeroSection({ stats }) {
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-gradient-to-br from-green-500/5 to-blue-500/5 rounded-full blur-3xl"></div>
       </div>
 
+        <DismissibleAlert message={"The DataBase Might Take 20s-30s To Load When You Open Site For the First Time"} type='info' />
       <div className="container-custom relative z-10 py-12 sm:py-16 lg:py-20">
         <div className="text-center max-w-4xl mx-auto">
           
@@ -126,32 +128,32 @@ function HeroSection({ stats }) {
               <ArrowForward className=" transition-transform duration-300" fontSize="small" />
             </Link>
             
-            {isAuthenticated?<Link 
-              to="/upload" 
+            <Link 
+              to={isAuthenticated?"/upload":"/auth/login"}
               className="btn-md btn-outline flex items-center justify-center space-x-2 hover:scale-105"
             >
-              <School fontSize="small" />
-              <span>Share Your Papers</span>
-            </Link>:<></>}
+              {isAuthenticated?<School fontSize="small" />:<UploadFileOutlined fontSize='small'/>}
+              <span>{isAuthenticated?"Share Your Papers":"Log in To Share Papers"}</span>
+            </Link>
           </div>
 
           {/* Statistics - Reduced font sizes */}
           <div className="grid grid-cols-3 sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
             <div className="text-center">
               <div className="text-3xl sm:text-4xl font-bold gradient-text mb-1">
-                {stats?.totalPapers?.toLocaleString() || '-'}
+                {stats?.totalPapers?.toLocaleString() || 'Loading'}
               </div>
               <div className="text-slate-400 font-medium text-sm">Question Papers</div>
             </div>
             <div className="text-center">
               <div className="text-3xl sm:text-4xl font-bold gradient-text mb-1">
-                {stats?.totalUsers?.toLocaleString() || '-'}
+                {stats?.totalUsers?.toLocaleString() || 'Data'}
               </div>
               <div className="text-slate-400 font-medium text-sm">Students Joined</div>
             </div>
             <div className="text-center">
               <div className="text-3xl  sm:text-4xl font-bold gradient-text mb-1">
-                {stats?.totalDownloads?.toLocaleString() || '-'}
+                {stats?.totalDownloads?.toLocaleString() || 'Base'}
               </div>
               <div className="text-slate-400 font-medium text-sm">Downloads</div>
             </div>

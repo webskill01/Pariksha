@@ -280,7 +280,7 @@ const isUserAdmin = () => {
                       <p className="form-error">{errors.title.message}</p>
                     )}
                     <p className="text-xs text-slate-500">
-                      Enter a descriptive title that clearly identifies the paper
+                      Enter a descriptive title that clearly identifies the paper (Fill Combined if the pdf contains more than one paper)
                     </p>
                   </div>
 
@@ -292,7 +292,7 @@ const isUserAdmin = () => {
                     </label>
                     <input
                       type="text"
-                      placeholder="e.g., Python Programming"
+                      placeholder="e.g., Python Programming "
                       className={`form-input ${errors.subject ? 'form-input-error' : ''}`}
                       {...register('subject')}
                       disabled={isUploading}

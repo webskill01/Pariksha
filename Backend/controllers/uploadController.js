@@ -26,7 +26,7 @@ export const uploadPaperWithFile = asyncHandler(async (req, res) => {
 
   const fileUrl = await uploadToR2(
     req.file.buffer,
-    fileName, // ✅ Now uses clean title-based name
+    fileName, // Now uses clean title-based name
     req.file.mimeType
   );
 
