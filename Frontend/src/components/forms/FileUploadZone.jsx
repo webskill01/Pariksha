@@ -153,7 +153,7 @@ function FileUploadZone({ onFileSelect, error, disabled = false, selectedFile })
               </div>
             </div>
               </div>
-              <div className="flex items-center gap-1.5 sm:gap-4 text-sm text-slate-400">
+              <div className="flex items-center gap-1.5 sm:gap-4 text-xs font-normal text-slate-400">
                 <span>{formatFileSize(selectedFile.size)}</span>
                 <span>•</span>
                 <span>PDF Document</span>
